@@ -68,10 +68,10 @@ Configure your security group or firewall with the following inbound rules:
 
 ## Adding SSH Credentials in Jenkins
 
-We are reusing the **same `.pem` key** that was used to launch both the Jenkins server and the App server.
+Since both machines use the same PEM key, Jenkins can directly SSH into the application server.
 This means Jenkins can SSH into the app server without generating a new key.
 
-### Step 1 — Copy Your PEM Key to Jenkins Server
+### Step 1 — Upload PEM Key to Jenkins Server
 
 From your **local machine**:
 
@@ -79,23 +79,24 @@ From your **local machine**:
 scp -i pem-key-server.pem pem-key-server.pem ubuntu@<JENKINS_SERVER_PUBLIC_IP>:/home/ubuntu/
 ```
 
-### Step 2 — Add PEM Key to Jenkins Credentials
+### Step 2 — Configure Jenkins Credentials
 
-1. Under **Stores scoped to Jenkins**, click **(global)** → **Add Credentials**.
-   ![](/python-app-img/credentials-1.png)
-2. Fill in:
+1. Navigate to:
+Manage Jenkins → Credentials → Global → Add Credentials
+
+2. Fill in the following:
 
    * **Kind**: SSH Username with private key
-   * **Username**: `ubuntu` (or the SSH username for your app server)
-   * **Private Key**: Choose **"Enter directly"** and paste the contents of `pem-key-server.pem`
+   * **Username**: `ubuntu` (or your respective SSH user)
+   * **Private Key**: Enter directly → Paste PEM contents `pem-key-server.pem`
    * **Host**: Enter the public IP of your app server (e.g., `98.81.210.251`)
    * **ID**: `python-app-credentials`
-3. Save.
-   ![](/python-app-img/credentials-2.png)
+3. Save the configuration.
+   
 
 ---
 
-## Jenkins Pipeline (Jenkinsfile)
+## Jenkins Declarative Pipeline (Jenkinsfile)
 
 ```groovy
 pipeline {
@@ -152,33 +153,29 @@ pipeline {
 ---
 
 1. **Job Configuration** 
-   ![](/python-app-img/job-config.png)
+  
 2. **Build Console Output** 
-   ![](/python-app-img/build-success.png)
+  
 3. **Browser** showing your running Python app.
-   ![](/python-app-img/final-output-1.png)
 
-   ![](/python-app-img/final-output-2.png)
 
 ---
 
-## How It Works
+## Deployment Flow
 
-1. **Clone Repository** – Pulls Python app code from GitHub.
-2. **Upload Files** – Uses SSH to copy files to app server.
-3. **Install & Run** – Creates a virtual environment, installs dependencies, and runs the app in the background.
-4. **Access App** – Open `http://<APP_SERVER_IP>:<PORT>` in your browser.
+1. Jenkins fetches the latest code from the Git repository.
 
----
+2. Required project files are securely copied to the application server.
 
-## Example Access URL
+3. A virtual environment is created, dependencies are installed, and the application is started using nohup.
 
+4. The application becomes accessible at:
 ```
 http://<public-ip of app-server>:5000
 ```
 
 
-## ⚡ Automating Builds with GitHub Webhooks
+## ⚡ Enabling Automated Builds with GitHub Webhooks
 
 To trigger the Jenkins build automatically on code push, ensure the **GitHub Plugin** is installed on Jenkins.
 
