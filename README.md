@@ -30,7 +30,7 @@ The deployment architecture consists of:
 
 ---
 
-## 🛠 Prerequisites
+##  Prerequisites
 
 ### 1. Infrastructure
 
@@ -175,7 +175,7 @@ http://<public-ip of app-server>:5000
 ```
 
 
-## ⚡ Enabling Automated Builds with GitHub Webhooks
+##  Enabling Automated Builds with GitHub Webhooks
 
 To trigger the Jenkins build automatically on code push, ensure the **GitHub Plugin** is installed on Jenkins.
 
