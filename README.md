@@ -186,7 +186,6 @@ To trigger the Jenkins build automatically on code push, ensure the **GitHub Plu
 
   * `GitHub hook trigger for GITScm polling`
 
-![](/python-app-img/webhook-jenkins-1.png)
 
 
 **Step 2 — Add Webhook in GitHub**
@@ -198,7 +197,6 @@ To trigger the Jenkins build automatically on code push, ensure the **GitHub Plu
 http://<JENKINS_SERVER_IP>:8080/github-webhook/
 ```
 
-![](/python-app-img/webhook-GIThub.png)
 
-Now, whenever you push code to the repo, Jenkins will automatically pull changes and deploy them.
+This ensures Jenkins automatically triggers a pipeline run whenever new code is pushed.
 
