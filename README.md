@@ -7,22 +7,26 @@ It follows an automated CI/CD workflow suitable for beginners as well as interme
 
 ## Project Overview
 
-We use:
+The deployment architecture consists of:
 
 * **Jenkins Server**: Executes pipeline stages and coordinates the deployment workflow.
+  
 * **Application Server**: Hosts and runs the Python application.
+  
 * **Deployment Method**: Jenkins declarative pipeline using Git, SSH, and Python virtual environments.
-* **Pipeline Stages**:
+  
+**Pipeline Stages**:
+1. Clone source code from the Git repository
 
-  1. Clone source code from GitHub.
-  2. Upload files to remote app server.
-  3. Install dependencies & start the app.
+2. Transfer project files to the application server
+
+3. Install dependencies and start the application
 
 **Plugins Used**:
 
 * [Git Plugin](https://plugins.jenkins.io/git/)
 * [SSH Agent Plugin](https://plugins.jenkins.io/ssh-agent/)
-* [Pipeline Plugin](https://plugins.jenkins.io/workflow-aggregator/)
+* [Pipeline Plugin](https://plugins.jenkins.io/workflow-aggregator/) (Workflow Aggregator)
 
 ---
 
@@ -34,35 +38,35 @@ We use:
 
   * **Jenkins Server** (to run the pipeline)
   * **App Server** (to host the Python application)
-* Both servers launched using the **same `.pem` key**.
+* Both servers should be launched using the same SSH key (PEM) to simplify access management.
 
 ### 2. Software Requirements
 
-| Component         | Jenkins Server | App Server   |
-| ----------------- | -------------- | ------------ |
-| Java (OpenJDK 17) | ✅ Required     | ✅ Required   |
-| Python3 & venv    | ❌ Not needed   | ✅ Required   |
-| pip               | ❌ Not needed   | ✅ Required   |
-| Git               | ✅ Required     | ✅ Required   |
-| Jenkins           | ✅ Required     | ❌ Not needed |
+| Component         | Jenkins Server    | App Server   |
+| ----------------- | --------------    | ------------ |
+| Java 17           | ✔ Required       | ✔ Required   |
+| Python3 & venv    | ✘ Not needed     | ✔ Required   |
+| pip               | ✘ Not needed     | ✔ Required   |
+| Git               | ✔ Required       | ✔ Required   |
+| Jenkins           | ✔ Required       | ✘ Not needed |
 
 ---
 
-## Security Group / Firewall Rules
+## Network & Firewall Configuration
 
-Open these ports in your **cloud security group** (or firewall):
+Configure your security group or firewall with the following inbound rules:
 
 | Port   | Purpose                         | Where to Open                                      |
 | ------ | ------------------------------- | -------------------------------------------------- |
-| 22     | SSH access                      | Jenkins → App Server, Your PC → Jenkins/App Server |
-| 8080   | Jenkins web interface           | Your PC → Jenkins Server                           |
-| 5000\* | Python app (or your app's port) | Public or specific IPs                             |
+| 22     | SSH access                      | Jenkins → App Server, Local Machine → BothServer |
+| 8080   | Jenkins web interface           | Local Machine → Jenkins Server                           |
+| 5000\* | Python app (or your app's port) | Public or specific IPs ranges                            |
 
-> **Tip:** Replace `5000` with the actual port your app listens on.
+> **Tip:** Update the port number depending on your application’s configuration.
 
 ---
 
-## Setting Up Jenkins Credentials
+## Adding SSH Credentials in Jenkins
 
 We are reusing the **same `.pem` key** that was used to launch both the Jenkins server and the App server.
 This means Jenkins can SSH into the app server without generating a new key.
