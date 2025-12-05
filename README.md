@@ -26,7 +26,7 @@ The deployment architecture consists of:
 
 * [Git Plugin](https://plugins.jenkins.io/git/)
 * [SSH Agent Plugin](https://plugins.jenkins.io/ssh-agent/)
-* [Pipeline Plugin](https://plugins.jenkins.io/workflow-aggregator/) (Workflow Aggregator)
+* [Pipeline Plugin](https://plugins.jenkins.io/workflow-aggregator/) 
 
 ---
 
