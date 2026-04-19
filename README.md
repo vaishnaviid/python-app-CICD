@@ -4,7 +4,7 @@ This document provides a structured approach for deploying a Python application 
 It follows an automated CI/CD workflow suitable for beginners as well as intermediate DevOps practitioners.
                                 
 ---
-
+          
 ## Project Overview
 
 The deployment architecture consists of:
