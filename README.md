@@ -3,7 +3,7 @@
 This document provides a structured approach for deploying a Python application to a remote server using **Jenkins**.
 It follows an automated CI/CD workflow suitable for beginners as well as intermediate DevOps practitioners.
                                 
----          
+---                  
           
 ## Project Overview
 
